@@ -2,6 +2,7 @@ package com.example.shirojwt.filter;
 
 import com.example.shirojwt.jwt.JwtToken;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -55,9 +56,11 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter 
         try {
             flag= executeLogin(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            flag=false;
         }
-        if (!flag) {
+        //flag登录错误直接写出去
+        if (flag) {
+            log.warn("直接写出.................");
             Map<String, String> map = new HashMap<>();
             map.put("code", "9999");
             map.put("msg", "没有访问权限，如需要访问，请联系管理员!");
@@ -79,7 +82,11 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter 
         String token = httpServletRequest.getHeader("Token");
         JwtToken jwtToken = new JwtToken(token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
-        getSubject(request, response).login(jwtToken);
+        try {
+            getSubject(request, response).login(jwtToken);
+        } catch (AuthenticationException e) {
+            return false;
+        }
         // 如果没有抛出异常则代表登入成功，返回true
         return true;
     }
