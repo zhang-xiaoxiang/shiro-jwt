@@ -4,12 +4,10 @@ import com.example.shirojwt.jwt.JwtToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,9 +22,10 @@ import java.util.Map;
  * @date: 2019/07/12
  */
 @Slf4j
-public class JwtFilter  extends BasicHttpAuthenticationFilter {
+@Component
+public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter {
 
-    public  boolean flag=false;
+
 
 
     /**
@@ -44,9 +43,31 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter {
             return true;
         } catch (Exception e) {
             log.error("JwtFilter过滤验证失败!");
-            flag=false;
             return false;
         }
+    }
+
+
+    @Override
+    public void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+        log.warn("进入了MyFilter。。。。");
+          boolean flag=false;
+        try {
+            flag= executeLogin(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!flag) {
+            Map<String, String> map = new HashMap<>();
+            map.put("code", "9999");
+            map.put("msg", "没有访问权限，如需要访问，请联系管理员!");
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().print(map);
+            return;
+        }
+
+        chain.doFilter(request, response);
+        return;
     }
 
     /**

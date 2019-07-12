@@ -33,11 +33,7 @@ public class UserController {
         if (user1 != null) {
             return user1;
         }
-        JwtFilter jwtFilter = new JwtFilter();
-        log.warn("flag: "+jwtFilter.flag);
-        if (jwtFilter.flag) {
-            return "401  没有权限!";
-        }
+
         return "系统错误!";
     }
 }
