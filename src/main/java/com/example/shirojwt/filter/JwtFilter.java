@@ -52,7 +52,7 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter 
     @Override
     public void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         log.warn("进入了MyFilter。。。。");
-          boolean flag=false;
+          boolean flag;
         try {
             flag= executeLogin(request, response);
         } catch (Exception e) {
@@ -66,11 +66,12 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter 
             map.put("msg", "没有访问权限，如需要访问，请联系管理员!");
             response.setCharacterEncoding("utf-8");
             response.getWriter().print(map);
+
             return;
         }
 
-        chain.doFilter(request, response);
-        return;
+        //chain.doFilter(request, response);
+
     }
 
     /**
@@ -84,11 +85,12 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter 
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         try {
             getSubject(request, response).login(jwtToken);
+            // 如果没有抛出异常则代表登入成功，返回true
+            return true;
         } catch (AuthenticationException e) {
             return false;
         }
-        // 如果没有抛出异常则代表登入成功，返回true
-        return true;
+
     }
 
 
