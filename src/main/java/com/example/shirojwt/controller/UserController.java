@@ -25,8 +25,8 @@ public class UserController {
 
     @RequestMapping("/login")
     public Object login(@RequestBody User user) {
-      User user1=  userService.login( user);
-        if (user1!=null) {
+        User user1 = userService.login(user);
+        if (user1 != null) {
             return user1;
         }
         return "登录失败!";

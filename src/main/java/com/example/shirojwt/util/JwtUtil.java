@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
@@ -14,11 +15,12 @@ import java.util.Date;
  * @author zhangxiaoxiang
  * @date: 2019/07/12
  */
+@Slf4j
 public class JwtUtil {
     /**
-     * JWT验证过期时间 5分钟
+     * JWT验证过期时间 EXPIRE_TIME 分钟
      */
-    private static final long EXPIRE_TIME = 5 * 60 * 1000;
+    private static final long EXPIRE_TIME = 10 * 60 * 1000;
 
     /**
      * 校验token是否正确
@@ -36,8 +38,11 @@ public class JwtUtil {
                     .build();
             //效验TOKEN
             DecodedJWT jwt = verifier.verify(token);
+            log.info("登录验证成功!");
             return true;
         } catch (Exception exception) {
+            log.error("登录验证失败!");
+
             return false;
         }
     }
@@ -57,7 +62,7 @@ public class JwtUtil {
     }
 
     /**
-     * 生成token签名,5min后过期
+     * 生成token签名EXPIRE_TIME 分钟后过期
      *
      * @param username 用户名(电话号码)
      * @param secret   用户的密码
@@ -75,7 +80,10 @@ public class JwtUtil {
     }
 
     public static void main(String[] args) {
+        /**
+         * 测试生成一个token
+         */
         String sign = sign("18888888888", "123456");
-        System.out.println(sign);
+       log.warn("测试生成一个token\n"+sign);
     }
 }
