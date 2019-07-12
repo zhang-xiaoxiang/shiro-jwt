@@ -24,9 +24,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter {
-
-
+public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
 
 
     /**
@@ -52,11 +50,11 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter 
     @Override
     public void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         log.warn("进入了MyFilter。。。。");
-          boolean flag;
+        boolean flag;
         try {
-            flag= executeLogin(request, response);
+            flag = executeLogin(request, response);
         } catch (Exception e) {
-            flag=false;
+            flag = false;
         }
         //flag登录错误直接写出去
         if (flag) {
@@ -69,7 +67,6 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter 
 
             return;
         }
-
         chain.doFilter(request, response);
 
     }
@@ -92,7 +89,6 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter implements Filter 
         }
 
     }
-
 
 
     /**
