@@ -1,0 +1,17 @@
+#数据库
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    #    username: root
+    #    password: root
+    #    url: jdbc:mysql://localhost/lvyou?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
+    username: xinzuo2019
+    password: 2019!@#xinZUO
+    url: jdbc:mysql://49.4.4.105:3306/lvyou?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
+#日志级别
+logging:
+  level:
+    com.xinzuo.lvyou.dao: debug
+#mybatis plusxml路径配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
