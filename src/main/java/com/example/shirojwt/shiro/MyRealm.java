@@ -4,6 +4,7 @@ import com.example.shirojwt.entity.User;
 import com.example.shirojwt.jwt.JwtToken;
 import com.example.shirojwt.service.UserService;
 import com.example.shirojwt.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@Slf4j
 public class MyRealm extends AuthorizingRealm {
 
     @Autowired
@@ -57,15 +59,18 @@ public class MyRealm extends AuthorizingRealm {
         // 解密获得username，用于和数据库进行对比
         String username = JwtUtil.getUsername(token);
         if (username == null) {
+          log.error("token无效(空''或者null都不行!)");
             throw new AuthenticationException("token无效");
         }
 
         User userBean = userService.findByUserName(username);
         if (userBean == null) {
+            log.error("用户不存在!)");
             throw new AuthenticationException("用户不存在!");
         }
 
         if (!JwtUtil.verify(token, username, userBean.getUserPassword())) {
+            log.error("用户名或密码错误!)");
             throw new AuthenticationException("用户名或密码错误");
         }
 

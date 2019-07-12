@@ -1,14 +1,20 @@
 package com.example.shirojwt.filter;
 
 import com.example.shirojwt.jwt.JwtToken;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * JwtFilter:jwt过滤器来作为shiro的过滤器
@@ -17,7 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author zhangxiaoxiang
  * @date: 2019/07/12
  */
+@Slf4j
 public class JwtFilter  extends BasicHttpAuthenticationFilter {
+
+    public  boolean flag=false;
+
+
     /**
      * 执行登录认证
      *
@@ -32,6 +43,8 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter {
             executeLogin(request, response);
             return true;
         } catch (Exception e) {
+            log.error("JwtFilter过滤验证失败!");
+            flag=false;
             return false;
         }
     }
@@ -69,5 +82,6 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter {
         }
         return super.preHandle(request, response);
     }
+
 
 }

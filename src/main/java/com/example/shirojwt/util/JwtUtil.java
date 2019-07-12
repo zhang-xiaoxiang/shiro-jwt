@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.shirojwt.exception.DefaultExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
@@ -41,7 +42,7 @@ public class JwtUtil {
             log.info("登录验证成功!");
             return true;
         } catch (Exception exception) {
-            log.error("登录验证失败!");
+            log.error("JwtUtil登录验证失败!");
 
             return false;
         }
