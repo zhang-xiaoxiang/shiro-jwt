@@ -77,8 +77,8 @@ public class MyRealm extends AuthorizingRealm {
         }
 
         if (!JwtUtil.verify(token, username, userBean.getUserPassword())) {
-            log.error("用户名或密码错误!)");
-            throw new AuthenticationException("用户名或密码错误");
+            log.error("用户名或密码错误(token无效或者与登录者不匹配)!)");
+            throw new AuthenticationException("用户名或密码错误(token无效或者与登录者不匹配)!");
         }
 
         return new SimpleAuthenticationInfo(token, token, "my_realm");

@@ -39,4 +39,16 @@ public class UserController {
         }
         return ResponseDataUtil.failure("登录失败!");
     }
+
+    @RequestMapping("/test")
+    public Object test(@RequestBody User user) {
+        log.warn("测试拦截的方法能进来不?");
+        return "测试拦截的方法能进来不?";
+    }
+
+    @RequestMapping("/swagger/test")
+    public Object swagger(@RequestBody User user) {
+        log.warn("测试放行的方法能进来不?");
+        return "测试放行的方法能进来不?";
+    }
 }

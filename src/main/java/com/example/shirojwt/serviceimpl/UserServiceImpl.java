@@ -34,9 +34,15 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     public User login(User user) {
         Map<String, Object> map = new HashMap<>();
         map.put("user_phone", user.getUserPhone());
-        map.put("user_password",user.getUserPassword());
+        map.put("user_password", user.getUserPassword());
         //throw  new MyException("我的模拟业务代码的异常!");
-        return userDao.selectByMap(map).get(0);
+        User user1 = null;
+        try {
+            user1 = userDao.selectByMap(map).get(0);
+        } catch (Exception e) {
+            throw new MyException("该用户名或者密码错误,请检查后再登录!");
+        }
+        return user1;
     }
 
     /**
