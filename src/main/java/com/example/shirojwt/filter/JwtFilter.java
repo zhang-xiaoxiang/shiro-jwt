@@ -1,9 +1,14 @@
 package com.example.shirojwt.filter;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.shirojwt.jwt.JwtToken;
+import com.example.shirojwt.result.ResponseData;
+import com.example.shirojwt.result.ResponseDataUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +32,7 @@ import java.util.Map;
 public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
 
 
+
     /**
      * 执行登录认证
      *
@@ -38,8 +44,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         try {
-            executeLogin(request, response);
-            return true;
+           return executeLogin(request, response);
+//            return true;
         } catch (Exception e) {
             log.error("JwtFilter过滤验证失败!");
             return false;
@@ -47,29 +53,6 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
     }
 
 
-    @Override
-    public void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        log.warn("进入了MyFilter。。。。");
-        boolean flag;
-        try {
-            flag = executeLogin(request, response);
-        } catch (Exception e) {
-            flag = false;
-        }
-        //flag登录错误直接写出去
-        if (flag) {
-            log.warn("直接写出.................");
-            Map<String, String> map = new HashMap<>();
-            map.put("code", "9999");
-            map.put("msg", "没有访问权限，如需要访问，请联系管理员!");
-            response.setCharacterEncoding("utf-8");
-            response.getWriter().print(map);
-
-            return;
-        }
-        chain.doFilter(request, response);
-
-    }
 
     /**
      *
@@ -85,6 +68,12 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
             // 如果没有抛出异常则代表登入成功，返回true
             return true;
         } catch (AuthenticationException e) {
+            System.out.println("executeLogin   ==>>"+e.getMessage());
+            ResponseData responseData = ResponseDataUtil.authorizationFailed( "没有访问权限，原因是:" + e.getMessage());
+            //SerializerFeature.WriteMapNullValue为了null属性也输出json的键值对
+            Object o = JSONObject.toJSONString(responseData, SerializerFeature.WriteMapNullValue);
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().print(o);
             return false;
         }
 
@@ -108,6 +97,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
         }
         return super.preHandle(request, response);
     }
+
+
 
 
 }

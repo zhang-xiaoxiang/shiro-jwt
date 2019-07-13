@@ -3,6 +3,7 @@ package com.example.shirojwt.controller;
 
 import com.example.shirojwt.entity.User;
 import com.example.shirojwt.filter.JwtFilter;
+import com.example.shirojwt.result.ResponseDataUtil;
 import com.example.shirojwt.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,11 @@ public class UserController {
 
     @RequestMapping("/login")
     public Object login(@RequestBody User user) {
-        log.warn("进去了方法");
+        log.warn("执行登录操作!");
         User user1 = userService.login(user);
         if (user1 != null) {
             return user1;
         }
-
-        return "系统错误!";
+        return ResponseDataUtil.failure("登录失败!");
     }
 }

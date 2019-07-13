@@ -57,7 +57,14 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
         // 解密获得username，用于和数据库进行对比
-        String username = JwtUtil.getUsername(token);
+        String username = null;
+        try {
+            username = JwtUtil.getUsername(token);
+        } catch (Exception e) {
+            throw new AuthenticationException("heard的token拼写错误或者值为空");
+        }
+
+
         if (username == null) {
           log.error("token无效(空''或者null都不行!)");
             throw new AuthenticationException("token无效");

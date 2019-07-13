@@ -14,23 +14,31 @@ public class ResponseData<T> {
     /**
      * 统一返回码
      */
-    public String rtnCode;
+    public Integer code;
 
     /**
      * 统一错误消息
      */
-    public String rtnMsg;
+    public String msg;
 
     /**
      * 结果对象
      */
-    public T rtnData;
+    public T data;
 
     public ResponseData() {
     }
 
-    public ResponseData(String rtnCode, String rtnMsg) {
-        this.rtnCode = rtnCode;
-        this.rtnMsg = rtnMsg;
+    public ResponseData(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
+
+    public ResponseData(Integer code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
+
 }
