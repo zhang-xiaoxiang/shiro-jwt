@@ -2,13 +2,14 @@ package com.example.shirojwt.result;
 
 /**
  * ResponseDataUtil:返回的工具类,主要是方便返回的写法
+ * 单纯的返回工具类,直接放在这个包
  *
  * @author zhangxiaoxiang
  * @date: 2019/07/13
  */
 public class ResponseDataUtil {
     /**
-     * 成功
+     * 返回成功描述
      * @param msg
      * @return
      */
@@ -19,6 +20,13 @@ public class ResponseDataUtil {
         ResponseData.setData(null);
         return ResponseData;
     }
+
+    /**
+     * 返回成功描述和数据详情
+     * @param msg
+     * @param data
+     * @return
+     */
     public static ResponseData success(String msg,Object data){
         ResponseData ResponseData=new ResponseData();
         ResponseData.setCode(200);
@@ -28,7 +36,7 @@ public class ResponseDataUtil {
     }
 
     /**
-     * 带code的异常
+     * 返回失败的带code的异常
      * @param code
      * @param msg
      * @return
@@ -57,7 +65,7 @@ public class ResponseDataUtil {
 
 
     /**
-     * 失败情况
+     * 返回失败的描述信息
      * @param msg
      * @return
      */

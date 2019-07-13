@@ -2,6 +2,7 @@ package com.example.shirojwt.controller;
 
 
 import com.example.shirojwt.entity.User;
+import com.example.shirojwt.exception.MyException;
 import com.example.shirojwt.filter.JwtFilter;
 import com.example.shirojwt.result.ResponseDataUtil;
 import com.example.shirojwt.service.UserService;
@@ -30,6 +31,8 @@ public class UserController {
     @RequestMapping("/login")
     public Object login(@RequestBody User user) {
         log.warn("执行登录操作!");
+        //先执行登录验证的过滤操作,才会执行后面这些乱七八糟的异常
+        //throw new MyException("测试自定义异常!");
         User user1 = userService.login(user);
         if (user1 != null) {
             return user1;
