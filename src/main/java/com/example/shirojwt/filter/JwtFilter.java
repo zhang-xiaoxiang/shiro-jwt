@@ -28,7 +28,7 @@ import java.util.Map;
  * @date: 2019/07/12
  */
 @Slf4j
-@Component
+@Component//这个注入与否影响不大
 public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
 
 
