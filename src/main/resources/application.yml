@@ -1,13 +1,14 @@
-#数据库
+#数据库(我使用的是mysql8)
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    #    username: root
-    #    password: root
-    #    url: jdbc:mysql://localhost/lvyou?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
-    username: xinzuo2019
-    password: 2019!@#xinZUO
-    url: jdbc:mysql://49.4.4.105:3306/lvyou?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
+    #    mysql5.7用下面这个驱动
+    #    driver-class-name: com.mysql.jdbc.Driver
+    #    mysql8用下面的这个驱动
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost/lvyou?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
+
 #日志级别
 logging:
   level:

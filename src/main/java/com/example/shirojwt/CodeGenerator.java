@@ -25,7 +25,7 @@ public class CodeGenerator {
     public static void main(String[] args) {
         //在这里输入你要生成的表名
         boolean b = generateEntity("user");
-        if (!b){
+        if (!b) {
             log.error("==========================逆向生成失败！=================================");
         }
 
@@ -34,6 +34,7 @@ public class CodeGenerator {
 
     /**
      * 数据库生成对应entity,dao,service,serviceimpl,controller和XML映射文件
+     *
      * @param tableName 数据库表名
      * @return 生成成功与失败的布尔值
      */
@@ -59,14 +60,11 @@ public class CodeGenerator {
 
             // 数据源配置
             DataSourceConfig dsc = new DataSourceConfig();
-            // dsc.setUrl("jdbc:mysql://localhost:3306/lvyou?useUnicode=true&useSSL=false&characterEncoding=utf8");
-            dsc.setUrl("jdbc:mysql://49.4.4.105:3306/lvyou?useUnicode=true&characterEncoding=utf8");
+            dsc.setUrl("jdbc:mysql://localhost:3306/lvyou?useUnicode=true&useSSL=false&characterEncoding=utf8");
             // dsc.setSchemaName("public");
             dsc.setDriverName("com.mysql.jdbc.Driver");
-            // dsc.setUsername("root");
-            // dsc.setPassword("root");
-            dsc.setUsername("xinzuo2019");
-            dsc.setPassword("2019!@#xinZUO");
+            dsc.setUsername("root");
+            dsc.setPassword("root");
             mpg.setDataSource(dsc);
 
             // 包配置
