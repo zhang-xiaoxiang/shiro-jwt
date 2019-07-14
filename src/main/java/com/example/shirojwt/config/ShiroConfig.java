@@ -17,7 +17,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * ShiroConfig:shiro 配置类
+ * ShiroConfig:shiro 配置类,配置哪些拦截,哪些不拦截,哪些授权等等各种配置都在这里
+ *
+ * 很多都是老套路,按照这个套路配置就行了
  *
  * @author zhangxiaoxiang
  * @date: 2019/07/12
@@ -25,7 +27,11 @@ import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
-
+    /**
+     * 注入安全过滤器
+     * @param securityManager
+     * @return
+     */
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -46,16 +52,17 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filterMap);
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边
         filterChainDefinitionMap.put("/**", "jwt");
-
-
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
-
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-
         return shiroFilterFactoryBean;
     }
 
+    /**
+     * 注入安全管理器
+     * @param myRealm
+     * @return
+     */
     @Bean("securityManager")
     public SecurityManager securityManager(MyRealm myRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -70,7 +77,6 @@ public class ShiroConfig {
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
         securityManager.setSubjectDAO(subjectDAO);
-
         return securityManager;
 
        }

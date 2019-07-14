@@ -3,7 +3,7 @@ package com.example.shirojwt.jwt;
 import org.apache.shiro.authc.AuthenticationToken;
 
 /**
- * JwtToken:包装token的类
+ * JwtToken:实现shiro的AuthenticationToken接口的类JwtToken
  *
  * @author zhangxiaoxiang
  * @date: 2019/07/12

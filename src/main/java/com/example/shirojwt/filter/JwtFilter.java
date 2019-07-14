@@ -8,7 +8,6 @@ import com.example.shirojwt.result.ResponseDataUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,13 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * JwtFilter:jwt过滤器来作为shiro的过滤器
- * 现在这里进行过滤,之后再到过滤器
  *
  * @author zhangxiaoxiang
  * @date: 2019/07/12
@@ -30,32 +26,12 @@ import java.util.Map;
 @Slf4j
 @Component//这个注入与否影响不大
 public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
-
-
-
     /**
-     * 执行登录认证
-     *
+     * 执行登录
      * @param request
      * @param response
-     * @param mappedValue
      * @return
-     */
-    @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        try {
-           return executeLogin(request, response);
-//            return true;
-        } catch (Exception e) {
-            log.error("JwtFilter过滤验证失败!");
-            return false;
-        }
-    }
-
-
-
-    /**
-     *
+     * @throws Exception
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
@@ -78,9 +54,32 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
 
     }
 
+    /**
+     * 执行登录认证
+     *
+     * @param request
+     * @param response
+     * @param mappedValue
+     * @return
+     */
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        try {
+            return executeLogin(request, response);
+            // return true;有一篇博客这里直接返回true是不正确的,在这里我特别指出一下
+        } catch (Exception e) {
+            log.error("JwtFilter过滤验证失败!");
+            return false;
+        }
+    }
+
 
     /**
      * 对跨域提供支持
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
@@ -96,8 +95,4 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
         }
         return super.preHandle(request, response);
     }
-
-
-
-
 }
