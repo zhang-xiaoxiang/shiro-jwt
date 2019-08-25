@@ -1,10 +1,12 @@
 package com.example.shirojwt.serviceimpl;
 
+import com.example.shirojwt.entity.LoginUser;
 import com.example.shirojwt.entity.User;
 import com.example.shirojwt.dao.UserDao;
 import com.example.shirojwt.exception.MyException;
 import com.example.shirojwt.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.shirojwt.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
      * @return
      */
     @Override
-    public User login(User user) {
+    public LoginUser login(User user) {
         Map<String, Object> map = new HashMap<>();
         map.put("user_phone", user.getUserPhone());
         map.put("user_password", user.getUserPassword());
@@ -42,7 +44,12 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         } catch (Exception e) {
             throw new MyException("该用户名或者密码错误,请检查后再登录!");
         }
-        return user1;
+        LoginUser loginUser=new LoginUser();
+        loginUser.setUser(user1);
+        //根据电话号码和密码加密生成token
+        String token = JwtUtil.sign(user1.getUserPhone(), user1.getUserPassword());
+        loginUser.setToken(token);
+        return loginUser;
     }
 
     /**

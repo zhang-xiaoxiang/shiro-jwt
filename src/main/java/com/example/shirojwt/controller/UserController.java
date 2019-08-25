@@ -1,6 +1,7 @@
 package com.example.shirojwt.controller;
 
 
+import com.example.shirojwt.entity.LoginUser;
 import com.example.shirojwt.entity.User;
 import com.example.shirojwt.exception.MyException;
 import com.example.shirojwt.filter.JwtFilter;
@@ -33,9 +34,9 @@ public class UserController {
         log.warn("执行登录操作!");
         //先执行登录验证的过滤操作,才会执行后面这些乱七八糟的异常
         //throw new MyException("测试自定义异常!");
-        User user1 = userService.login(user);
-        if (user1 != null) {
-            return user1;
+        LoginUser loginUser = userService.login(user);
+        if (loginUser != null) {
+            return loginUser;
         }
         return ResponseDataUtil.failure("登录失败!");
     }

@@ -1,5 +1,6 @@
 package com.example.shirojwt.service;
 
+import com.example.shirojwt.entity.LoginUser;
 import com.example.shirojwt.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -18,7 +19,7 @@ public interface UserService extends IService<User> {
      * @param user
      * @return
      */
-    User login(User user);
+    LoginUser login(User user);
 
     /**
      * 通过用户(电话号码)查询用户
