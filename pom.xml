@@ -59,7 +59,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <!--<version>5.1.38</version>-->
             <!--mysql8使用下面的版本或者不写-->
-            <version>8.0.13</version>
+            <version>8.0.16</version>
         </dependency>
 
         <!--*****下面是mybatis plus重要依赖*****-->
